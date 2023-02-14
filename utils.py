@@ -1,0 +1,54 @@
+import json
+import os
+
+
+def load_students(path):
+    """Загружает список студентов из файла"""
+    if not os.path.exists(path):
+        return []
+
+    with open(path, encoding="utf-8") as file:
+        data = json.load(file)
+
+    return data
+
+
+def load_professions(path):
+    """Загружает список профессий из файла"""
+    if not os.path.exists(path):
+        return []
+
+    with open(path, encoding="utf-8") as file:
+        data = json.load(file)
+
+    return data
+
+
+def get_student_by_pk(students, pk):
+    """Получает словарь с данными студента по его pk"""
+    for stu in students:
+        if stu["pk"] == pk:
+            return stu
+
+
+def get_profession_by_title(professions, title):
+    """Получает словарь с инфо о профе по названию"""
+    for pro in professions:
+        if pro["title"] == title:
+            return pro
+
+
+def check_fitness(student_skills, profession_skills):
+    """Получает соответствие студента профессии"""
+    student_skillset = set(student_skills)
+    profession_skillset = set(profession_skills)
+
+    has = student_skillset.intersection(student_skillset)
+    lacks = profession_skillset.difference(student_skillset)
+    fit_percent = len(has) / len(profession_skillset) * 100
+
+    return {
+  "has": list(has),
+  "lacks": list(lacks),
+  "fit_percent": round(fit_percent)
+}
